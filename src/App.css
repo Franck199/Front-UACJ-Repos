@@ -1,0 +1,157 @@
+:root {
+  --primary-color: #03b9da;
+  --secondary-color: #0264f8;
+  --background-color: #021a31;
+  --container-bg: rgba(22, 140, 207, 0.65);
+  --text-color: #ffffff;
+  --error-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.App-header {
+  background-color: #0e3358;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.App-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.App-link:hover {
+  color: var(--secondary-color);
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: var(--container-bg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+.home-container {
+  padding: 40px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--text-color);
+  font-size: 24px;
+}
+
+form div {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin: 20px 0 10px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.error {
+  color: var(--error-color);
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+p {
+  text-align: center;
+  color: var(--error-color);
+  margin-top: 15px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  button {
+    padding: 12px;
+  }
+}
