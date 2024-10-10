@@ -12,7 +12,7 @@ const AdminDashboard = () => {
                 throw new Error('No se encontró token de autenticación');
             }
 
-            const response = await axios.get('http://localhost:3000/api/horarios-documentation', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/horarios-documentation`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
