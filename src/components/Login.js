@@ -5,8 +5,11 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isRecovering, setIsRecovering] = useState(false);
     const navigate = useNavigate();
+    const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,15 +21,16 @@ const Login = () => {
         setLoading(true);
     
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+            const response = await fetch(`${API_URL}/api/login`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json',
+                  'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(loginData),
-            });
+              })
             const data = await response.json();
-            console.log('Login response:', data);  // Para depuración
+            console.log('Login response:', data);  
 
             if (response.ok) {
                 setErrorMessage('');
@@ -55,38 +59,88 @@ const Login = () => {
         }
     };
 
+    const handleRecoverPassword = async (e) => {
+        e.preventDefault();
+        if (!email) {
+          setErrorMessage('Por favor, ingresa tu correo electrónico');
+          return;
+        }
+        setLoading(true);
+        try {
+          const response = await fetch('http://localhost:3000/api/recover-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setSuccessMessage(`Tu nueva contraseña es: ${data.newPassword}. Por favor, cámbiala después de iniciar sesión.`);
+            setErrorMessage('');
+          } else {
+            setErrorMessage(data.message || 'Error al procesar la solicitud');
+          }
+        } catch (error) {
+          console.error('Error al conectar con el servidor:', error);
+          setErrorMessage('Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.');
+        } finally {
+          setLoading(false);
+        }
+      };
+
     return (
         <div className="container">
             <div className="login-container">
-                <h2>Iniciar Sesión</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <label htmlFor="email">Correo Electrónico</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="password">Contraseña</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Iniciando sesión...' : 'Ingresar'}
-                    </button>
-                </form>
+                <h2>{isRecovering ? 'Recuperar Contraseña' : 'Iniciar Sesión'}</h2>
+                {isRecovering ? (
+                    <form onSubmit={handleRecoverPassword}>
+                        <div className="input-group">
+                            <label htmlFor="recover-email">Correo Electrónico</label>
+                            <input
+                                type="email"
+                                id="recover-email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Procesando...' : 'Recuperar Contraseña'}
+                        </button>
+                    </form>
+                ) : (
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-group">
+                            <label htmlFor="email">Correo Electrónico</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="password">Contraseña</label>
+                            <input
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Iniciando sesión...' : 'Ingresar'}
+                        </button>
+                    </form>
+                )}
                 {errorMessage && <p className="error">{errorMessage}</p>}
-            </div>
-            <div className="debug-info">
+                {successMessage && <p className="success">{successMessage}</p>}
+                <button onClick={() => setIsRecovering(!isRecovering)} className="toggle-recover">
+                    {isRecovering ? 'Volver al inicio de sesión' : '¿Olvidaste tu contraseña?'}
+                </button>
             </div>
         </div>
     );
