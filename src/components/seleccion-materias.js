@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = `${process.env.REACT_APP_API_URL}/api`;
-
 const SeleccionMaterias = () => {
     const [materias, setMaterias] = useState([]);
     const [selectedMaterias, setSelectedMaterias] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net'; // URL actualizada
 
     const getAuthHeaders = useCallback(() => {
         const token = localStorage.getItem('token');
@@ -31,8 +31,8 @@ const SeleccionMaterias = () => {
             try {
                 setLoading(true);
                 const [materiasData, historialData] = await Promise.all([
-                    fetchData(`${API_BASE_URL}/materias`, 'Error al cargar materias.'),
-                    fetchData(`${API_BASE_URL}/check-historial`, 'Error al cargar el historial academico.')
+                    fetchData(`${API_URL}/api/materias`, 'Error al cargar materias.'),  // URL actualizada
+                    fetchData(`${API_URL}/api/check-historial`, 'Error al cargar el historial academico.')  // URL actualizada
                 ]);
 
                 setMaterias(materiasData);
@@ -77,8 +77,7 @@ const SeleccionMaterias = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post(
-                `${API_BASE_URL}/guardar-historial`, 
+            const response = await axios.post(`${API_URL}/api/guardar-historial`,  // URL actualizada
                 { materias: selectedMaterias },
                 { headers: getAuthHeaders() }
             );
@@ -114,38 +113,37 @@ const SeleccionMaterias = () => {
 
     return (
         <div className="materias-container">
-    <h2>Selecciona tus materias</h2>
-    {error && <p className="error-msg">{error}</p>}
-    {success && <p className="success-msg">{success}</p>}
-    {materias.length > 0 ? (
-        <div className="materias-grid">
-            {materias.map(materia => (
-                <div key={materia.materia_id} className="materia-item">
-                    <input
-                        className="checkbox-materia"
-                        type="checkbox"
-                        id={`materia-${materia.materia_id}`}
-                        checked={selectedMaterias.some(item => item.materia_id === materia.materia_id)}
-                        onChange={() => handleSelect(materia)}
-                    />
-                    <label className="label-materia" htmlFor={`materia-${materia.materia_id}`}>
-                        {materia.materia_name}
-                    </label>
+            <h2>Selecciona tus materias</h2>
+            {error && <p className="error-msg">{error}</p>}
+            {success && <p className="success-msg">{success}</p>}
+            {materias.length > 0 ? (
+                <div className="materias-grid">
+                    {materias.map(materia => (
+                        <div key={materia.materia_id} className="materia-item">
+                            <input
+                                className="checkbox-materia"
+                                type="checkbox"
+                                id={`materia-${materia.materia_id}`}
+                                checked={selectedMaterias.some(item => item.materia_id === materia.materia_id)}
+                                onChange={() => handleSelect(materia)}
+                            />
+                            <label className="label-materia" htmlFor={`materia-${materia.materia_id}`}>
+                                {materia.materia_name}
+                            </label>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            ) : (
+                <p className="no-materias-msg">Materias no disponibles</p>
+            )}
+            <button 
+                className="boton-guardar" 
+                onClick={handleSubmit} 
+                disabled={selectedMaterias.length === 0 || loading}
+            >
+                {loading ? 'Guardando...' : 'Guardar materias'}
+            </button>
         </div>
-    ) : (
-        <p className="no-materias-msg">Materias no disponibles</p>
-    )}
-    <button 
-        className="boton-guardar" 
-        onClick={handleSubmit} 
-        disabled={selectedMaterias.length === 0 || loading}
-    >
-        {loading ? 'Guardando...' : 'Guardar materias'}
-    </button>
-</div>
-
     );
 };
 
