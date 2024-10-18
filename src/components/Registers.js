@@ -6,6 +6,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net'; // Mismo servidor que en Login
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,8 +17,9 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
+      const response = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -28,7 +30,6 @@ const Register = () => {
         }),
       });
       
-
       const result = await response.json();
 
       if (response.ok) {

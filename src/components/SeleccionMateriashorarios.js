@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = `${process.env.REACT_APP_API_URL}/api`;
-
 const SeleccionMateriasHorarios = () => {
     const [availableMaterias, setAvailableMaterias] = useState([]);
     const [selectedMaterias, setSelectedMaterias] = useState([]);
@@ -13,6 +11,8 @@ const SeleccionMateriasHorarios = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net';  // URL base actualizada
+
     const getAuthHeaders = useCallback(() => {
         const token = localStorage.getItem('token');
         return token ? { 'Authorization': `Bearer ${token}` } : {};
@@ -20,7 +20,7 @@ const SeleccionMateriasHorarios = () => {
 
     const fetchUserData = useCallback(async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/user-academic-info`, { headers: getAuthHeaders() });
+            const response = await axios.get(`${API_URL}/api/user-academic-info`, { headers: getAuthHeaders() });  // URL actualizada
             setUserCredits(response.data.totalCredits);
             setPassedCourses(response.data.approvedSubjects || []);
         } catch (error) {
@@ -31,7 +31,7 @@ const SeleccionMateriasHorarios = () => {
 
     const fetchAvailableMaterias = useCallback(async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/all-subjects`, { headers: getAuthHeaders() });
+            const response = await axios.get(`${API_URL}/api/all-subjects`, { headers: getAuthHeaders() });  // URL actualizada
             const filteredMaterias = response.data
                 .filter(materia => userCredits >= (materia.requerimiento_Creditos || 0))
                 .reduce((acc, current) => {
