@@ -3,6 +3,7 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
 .materias-container {
@@ -22,7 +23,7 @@ body, html {
     text-align: center;
     color: white;
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 1.5rem; /* Tamaño responsivo */
 }
 
 .materias-grid {
@@ -51,7 +52,7 @@ body, html {
 
 .label-materia {
     flex-grow: 1;
-    font-size: 16px;
+    font-size: 1rem; /* Tamaño relativo */
     color: white;
 }
 
@@ -60,7 +61,7 @@ body, html {
     color: black;
     border-radius: 4px;
     padding: 5px;
-    font-size: 14px;
+    font-size: 0.9rem;
     margin-left: 10px;
 }
 
@@ -77,7 +78,7 @@ body, html {
     color: black;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -86,13 +87,14 @@ body, html {
     background-color: #0264f894;
 }
 
+/* Responsivo para pantallas pequeñas */
 @media (max-width: 600px) {
     .materias-grid {
         grid-template-columns: 1fr;
     }
 
     .titulo-materias {
-        font-size: 20px;
+        font-size: 1.25rem; /* Ajuste responsivo */
     }
 
     .materia-item {
@@ -100,15 +102,68 @@ body, html {
     }
 
     .label-materia {
-        font-size: 14px;
+        font-size: 0.875rem; /* Ajuste responsivo */
     }
 
     .dropdown-horario {
-        font-size: 12px;
+        font-size: 0.75rem; /* Ajuste responsivo */
     }
 
     .boton-guardar {
-        font-size: 14px;
+        font-size: 0.875rem; /* Ajuste responsivo */
         padding: 12px;
     }
 }
+
+/* Pantallas medianas, como tablets */
+@media (max-width: 900px) {
+    .materias-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .titulo-materias {
+        font-size: 1.4rem;
+    }
+
+    .materia-item {
+        padding: 10px;
+    }
+
+    .label-materia {
+        font-size: 0.95rem;
+    }
+
+    .dropdown-horario {
+        font-size: 0.85rem;
+    }
+
+    .boton-guardar {
+        font-size: 0.95rem;
+        padding: 12px;
+    }
+}
+
+/* Pantallas más grandes */
+@media (min-width: 1200px) {
+    .materias-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .titulo-materias {
+        font-size: 2rem;
+    }
+
+    .label-materia {
+        font-size: 1.1rem;
+    }
+
+    .dropdown-horario {
+        font-size: 1rem;
+    }
+
+    .boton-guardar {
+        font-size: 1.2rem;
+        padding: 18px;
+    }
+}
+
