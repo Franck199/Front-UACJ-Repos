@@ -45,8 +45,8 @@ const SeleccionMateriasHorarios = () => {
             setAvailableMaterias(filteredMaterias);
             console.log('Materias filtradas:', filteredMaterias);
         } catch (error) {
-            console.error('Error fetching available subjects:', error);
-            setError('Failed to load available courses. Please try again.');
+            console.error('Error al recuperar materias disponibles:', error);
+            setError('No se pueden cargar las materias disponibles. Por favor inténtalo de nuevo.');
         } finally {
             setLoading(false);
         }

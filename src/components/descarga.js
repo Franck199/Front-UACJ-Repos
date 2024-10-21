@@ -19,7 +19,7 @@ const AdminDashboard = () => {
                 responseType: 'blob'
             });
 
-            console.log('Download response:', response);
+            console.log('Descargando Respuestas: ', response);
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');

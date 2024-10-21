@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -6,13 +6,26 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
-  const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net'; // Mismo servidor que en Login
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+
+  const API_URL = 'https://aplicacionbackweb-d5bxb7bvhefjgcd0.canadacentral-01.azurewebsites.net';
+
+  useEffect(() => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+    setIsPasswordValid(passwordRegex.test(password));
+  }, [password]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
       setMessage('Las contraseñas no coinciden');
+      return;
+    }
+
+    if (!isPasswordValid) {
+      setMessage('La contraseña no cumple con los requisitos');
       return;
     }
 
@@ -71,15 +84,25 @@ const Register = () => {
             required
           />
         </div>
-        <div>
+        <div className="password-input-container">
           <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onFocus={() => setShowPasswordRequirements(true)}
+            onBlur={() => setShowPasswordRequirements(false)}
             required
           />
+          {showPasswordRequirements && (
+            <p className="errpassword-requirementsor">
+              La contraseña debe tener al menos 6 caracteres, incluyendo números, letras y signos de puntuación.
+            </p>
+          )}
+          {!isPasswordValid && password && (
+            <p className="error">La contraseña no cumple con los requisitos</p>
+          )}
         </div>
         <div>
           <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
@@ -93,7 +116,7 @@ const Register = () => {
         </div>
         <button type="submit">Registrarse</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={message === 'Registro exitoso' ? 'success-msg' : 'error'}>{message}</p>}
     </div>
   );
 };

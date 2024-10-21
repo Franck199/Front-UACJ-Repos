@@ -1,8 +1,8 @@
 :root {
-  --primary-color: #03b9da;
-  --secondary-color: #0264f8;
-  --background-color: #021a31;
-  --container-bg: rgba(22, 140, 207, 0.65);
+  --primary-color: #FFD700;
+  --secondary-color: #caac00;
+  --background-color: #0047ab3b;
+  --container-bg: #0047AB;
   --text-color: #ffffff;
   --error-color: #ffffff;
 }
@@ -74,7 +74,7 @@ input[type="password"]:focus,
 select:focus {
   outline: none;
   border-color: var(--primary-color);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.836);
 }
 
 button {
@@ -82,7 +82,7 @@ button {
   padding: 15px;
   margin: 20px 0 10px;
   background-color: var(--primary-color);
-  color: var(--background-color);
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -94,8 +94,8 @@ button {
   width: auto;
   padding: 5px 10px;
   margin: 0;
-  background-color: #008cff;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -103,6 +103,8 @@ button {
   font-weight: normal;
   transition: background-color 0.3s ease;
 }
+
+
 
 button:hover {
   background-color: var(--secondary-color);
@@ -121,10 +123,13 @@ button:active {
 
 p {
   text-align: center;
-  color: var(--error-color);
+  color: rgb(255, 255, 255);
   margin-top: 15px;
 }
 
+.success-msg{
+  color: green;
+}
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 480px) {
   .container {

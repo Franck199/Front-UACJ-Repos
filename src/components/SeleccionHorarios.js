@@ -30,8 +30,8 @@ const SeleccionHorarios = () => {
             console.log('Franjas horarias received:', franjasResponse.data);
             setFranjasHorarias(franjasResponse.data);
         } catch (error) {
-            console.error('Error fetching data:', error);
-            setError('Failed to load time slots. Please try again.');
+            console.error('Error al obtener datos:', error);
+            setError('No se pudieron cargar los intervalos de tiempo. Por favor inténtalo de nuevo.');
         } finally {
             setLoading(false);
         }
@@ -54,7 +54,7 @@ const SeleccionHorarios = () => {
 
     const handleSubmit = async () => {
         if (Object.keys(selectedHorarios).length !== selectedMaterias.length) {
-            setError('Please select a time slot for each course.');
+            setError('Seleccione un horario para cada curso.');
             return;
         }
 
@@ -76,14 +76,14 @@ const SeleccionHorarios = () => {
             setError(null);
             localStorage.removeItem('selectedMaterias');
         } catch (error) {
-            console.error('Error saving schedules:', error);
-            setError('Failed to save schedules. Please try again.');
+            console.error('Error al guardar horarios:', error);
+            setError('No se pudieron guardar los horarios. Por favor inténtalo de nuevo.');
             setSuccess(null);
         }
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Cargando...:</div>;
     }
 
     return (

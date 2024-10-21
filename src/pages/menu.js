@@ -5,7 +5,6 @@ const Menu = () => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const [userName, setUserName] = useState('');
-    const [debugInfo, setDebugInfo] = useState({});
 
     useEffect(() => {
         const fetchUserInfo = () => {
@@ -17,7 +16,6 @@ const Menu = () => {
 
             setIsAdmin(userRole === 'admin');
             setUserName(storedUserName || '');
-            setDebugInfo({ userRole, storedUserName, tokenExists: !!token });
         };
 
         fetchUserInfo();
@@ -56,9 +54,6 @@ const Menu = () => {
                     <button onClick={handleDownloadData}>Descargar Información</button>
                 </div>
             )}
-            <div style={{marginTop: '20px', border: '1px solid #ccc', padding: '10px'}}>
-                <p>Tipo de usuario: {debugInfo.userRole || 'Rol indefinido'}</p>
-            </div>
         </div>
     );
 };
